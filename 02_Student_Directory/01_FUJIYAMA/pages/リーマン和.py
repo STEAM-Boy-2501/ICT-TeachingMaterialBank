@@ -4,7 +4,7 @@ import numpy as np
 import plotly.graph_objects as go
 from sympy import symbols, sympify, lambdify, latex
 from sympy.core.sympify import SympifyError
-
+import io
 
 """# リーマン和"""
 
@@ -81,8 +81,6 @@ def plot_riemann_sum(x_values, y_values, title, bar_color='rgba(200, 50, 50, 0.6
 
 #区間・分割数
 if n!=0 and a-b!=0 and genre:
-    if st.button('グラフの保存'):
-        fig.savefig('UpperRiemannsum.pdf')
     if st.button("結果の表示"):  
         st.write("f(x) = " + user_formula)
         st.write("分割数： " + str(c))
@@ -97,10 +95,18 @@ if n!=0 and a-b!=0 and genre:
             y_right = f(x[1:])
             fig = plot_riemann_sum(x_right, y_right, "右リーマン和")
             st.write(fig)
-            if st.button('グラフの保存'):
-                fig.savefig('UpperRiemannsum.pdf')
+            # グラフの保存
+            buffer = io.StringIO()
+            fig.write_html(buffer, include_plotlyjs='cdn')
+            html_bytes = buffer.getvalue().encode()
 
-
+            st.download_button(
+                label="グラフのダウンロード",
+                data=html_bytes,
+                file_name='RightRiemannSum.html',
+                mime='text/html'
+            )
+            
         # 左リーマン和
         if "左リーマン和" in genre:           
             x_left = x[:-1]  + bar_width / 2 # 右端点 2番目以降を取り出す

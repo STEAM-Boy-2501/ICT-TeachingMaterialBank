@@ -11,3 +11,4 @@ sklearn.linear_model
 math
 statsmodels.api
 chardet
+io
