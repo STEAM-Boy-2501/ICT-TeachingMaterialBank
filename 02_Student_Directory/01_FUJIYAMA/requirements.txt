@@ -3,12 +3,9 @@ sympy
 pandas
 numpy
 plotly
-plotly.graph_objects
 sympy
-sympy.core.sympify
-sklearn.model_selection
-sklearn.linear_model
+sklearn
 math
-statsmodels.api
+statsmodels
 chardet
 io
