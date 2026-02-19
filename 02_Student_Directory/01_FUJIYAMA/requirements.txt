@@ -1,0 +1,13 @@
+streamlit
+sympy
+pandas
+numpy
+plotly
+plotly.graph_objects
+sympy
+sympy.core.sympify
+sklearn.model_selection
+sklearn.linear_model
+math
+statsmodels.api
+chardet
