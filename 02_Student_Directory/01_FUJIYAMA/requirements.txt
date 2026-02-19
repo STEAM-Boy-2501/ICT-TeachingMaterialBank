@@ -3,9 +3,6 @@ sympy
 pandas
 numpy
 plotly
-sympy
-sklearn
-math
+scikit-learn
 statsmodels
 chardet
-io
