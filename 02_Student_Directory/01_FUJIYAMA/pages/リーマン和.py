@@ -51,16 +51,16 @@ else:
 if a > b:
     a, b = b, a
 
+# グラフ選択
+all_genre = ["右リーマン和", "左リーマン和", "中央リーマン和", "上リーマン和", "下リーマン和"]
+genre = st.multiselect("表示させたいグラフの種類を選択してください。（複数選択可）",all_genre)
+
 # 保存形式の選択
 save_format = st.radio(
     "右上のカメラボタンで保存する形式を選択してください",
     ["png", "svg", "jpeg"],
     horizontal=True
 )
-
-# グラフ選択
-all_genre = ["右リーマン和", "左リーマン和", "中央リーマン和", "上リーマン和", "下リーマン和"]
-genre = st.multiselect("表示させたいグラフの種類を選択してください。（複数選択可）",all_genre)
 
 def plot_riemann_sum(x_values, y_values, title, bar_color='rgba(200, 50, 50, 0.6)'):
     bar_x = x_values # 棒の中心
