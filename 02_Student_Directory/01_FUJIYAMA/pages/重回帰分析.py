@@ -30,7 +30,7 @@ if tub_dict[selected_cbox] == 0 :
     
     # データの読み込み
     if select_data_dict[select_str] == 0:
-        read_data_df = pd.read_csv("pages\sample_datas\SLRA.csv",encoding='utf-8')
+        read_data_df = pd.read_csv("pages/sample_datas/SLRA.csv",encoding='utf-8')
 
     else :
         st.stop()
