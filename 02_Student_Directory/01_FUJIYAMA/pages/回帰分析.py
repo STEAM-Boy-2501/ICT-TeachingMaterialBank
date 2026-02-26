@@ -17,7 +17,7 @@ selected_cbox = st.radio(label="選択", options = tub_dict.keys(),horizontal=Tr
 
 ###  デモデータによる分析体験
 current_dir = os.path.dirname(__file__)
-file_path = os.path.join(current_dir, "sample_datas", "SLRA.csv")
+file_path = os.path.join(current_dir, "sample_datas", "SLRA.csv") # デモデータのパス
 tub_counta = 0
 tub_title = list(tub_dict.keys())[tub_counta]
 if tub_dict[selected_cbox] == 0 :
