@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 from sympy import symbols, sympify, lambdify, latex, integrate
@@ -9,6 +8,7 @@ from sympy.core.sympify import SympifyError
 """# リーマン和"""
 
 """___"""
+
 
 
 user_formula = st.text_input("yを取り除いた数式を入力してください。　例）sin(x), pi * x")
@@ -39,23 +39,34 @@ if user_formula.strip():
         st.write("エラー:", e)
 
 method = st.radio("分割数を選んでください", ["指定する", "∞"], horizontal=True)
+# 文字列を数値に変換
+def parse_math_input(val_str):
+    try:
+        return float(sympify(val_str).evalf())
+    except Exception:
+        st.error(f"入力が正しくありません: {val_str}")
+        st.stop()
 
 if method == "指定する":
     col_n,col_a,col_b = st.columns(3)
-    n_val = col_n.number_input("分割数を入力してください", value=0, step=1)
-    a = col_a.number_input("区域の始まり入力してください", value=0, step=1)
-    b = col_b.number_input("区域の終わりを入力してください", value=0, step=1)
-    c = n_val
+    n_val = col_n.number_input("分割数を入力してください", value=None, min_value = 1, step=1, placeholder="数値を入力")
+    a_str = col_a.text_input("区間の始まりを入力してください", "0")
+    a = parse_math_input(a_str)
+    b_str = col_b.text_input("区間の終わりを入力してください", "0")
+    b = parse_math_input(b_str)
 
 else:
     col_a,col_b = st.columns(2)
     with col_a:
-        a = st.number_input("区域の始まり入力してください", value=0, step=1)
+        a_str = col_a.text_input("区間の始まりを入力してください", "0")
+        a = parse_math_input(a_str)
     with col_b:
-        b = st.number_input("区域の終わりを入力してください", value=0, step=1)
+        b_str = col_b.text_input("区間の終わりを入力してください", "0")
+        b = parse_math_input(b_str)
 
 if a > b:
     a, b = b, a
+    a_str, b_str = b_str, a_str
 
 # グラフ選択
 if method == '指定する':
@@ -68,6 +79,8 @@ save_format = st.radio(
     ["png", "svg", "jpeg"],
     horizontal=True
 )
+
+
 # アニメーション付きグラフの生成 
 def animation_riemann(genre_type, start_n, end_n=1000):
     # 分割数のリスト （最初の分割数から1000までの間をnumだけ分割して格納）
@@ -76,8 +89,8 @@ def animation_riemann(genre_type, start_n, end_n=1000):
     x_curve = np.linspace(a, b, 500) # 曲線用のx
     y_curve = f(x_curve) # 曲線用のy
 
-    exact_val = integrate(expr, (x_sym, a, b)) # aからbまで定積分
-    # グラフの塗りつぶす閾値の設定 0.05か面積の1%
+    exact_val = float(integrate(expr, (x_sym, a, b))) # aからbまで定積分
+    # グラフの塗りつぶす閾値の設定 (0.05か面積の1%)
     threshold = max(0.05,abs(exact_val) * 0.01)
 
     frames = []
@@ -181,56 +194,49 @@ def plot_riemann_sum():
     # 青い曲線
     fig.add_trace(go.Scatter(x=x_curve, y=y_curve, mode='lines', line=dict(color='blue'), name="y = f(x)"))
     fig.update_layout(
-        title=(f"(f(x) = {user_formula})<br>値 ≈ {val:.5f}<br>区間：{str(a)}から{str(b)} "),
+        title=(f"値 ≈ {val:.5f}"),
         xaxis_title="x", yaxis_title="f(x)", template="plotly_white", height=600
     )
     return fig
 
+# グラフ生成の設定
 def get_config(g):
-    if g == "右リーマン和":
-        filename = "RightRiemannSum"
-    elif g == "左リーマン和":
-        filename = "LeftRiemannSum"
-    elif g == "中央リーマン和":
-        filename = "MidpointRiemannSum"
-    elif g == "上リーマン和":
-        filename = "UpperRiemannSum"
-    else:
-        filename = "LowerRiemannSum"
+    filename_map = {
+        "右リーマン和" : "RightRiemannSum",
+        "左リーマン和" : "LeftRiemannSum",
+        "中央リーマン和" : "MidpointRiemannSum",
+        "上リーマン和" : "UpperRiemannSum",
+        "下リーマン和" : "LowerRiemannSum",
+        "Infinity" : "InfinityRiemannSum"
+    }
+    filename = filename_map.get(g, "RiemannSum")
     return {
         'toImageButtonOptions': {
             'format': save_format, # ラジオボタンの値
-            'filename': filename,  # ここで個別のファイル名を設定
-            'height': None, 
-            'width': None,
+            "filename" : filename,
             'scale': 2
         }
     }
 
-# ∞の場合のグラフの生成
-if method == '∞' and a-b != 0:
-    fig = plot_riemann_sum()
-    st.plotly_chart(fig, use_container_width=True)
+# 描画の実行
+if a != b:
+    st.write("---")
+    
+    # 入力された文字列をsympyで数式化し、さらにLaTeX文字列に変換する
+    latex_f = latex(sympify(user_formula))
+    latex_a = latex(sympify(a_str))
+    latex_b = latex(sympify(b_str))
+    
+    # $ $ で囲んでMarkdownとして出力する
+    st.markdown(f"**$f(x) = {latex_f}$**")
+    st.markdown(f"**区間 : ${latex_a}$ から ${latex_b}$**")
 
-#区間・分割数
-if method == "指定する":
-    if n_val!=0 and a-b!=0 and genre:
-        st.write("f(x) = " + user_formula)
-        st.write("分割数： " + str(c))
-        st.write("区間： " + str(a) + "から" + str(b))  
-
-        config = {
-            'toImageButtonOptions': {
-                'format': save_format,
-                'filename': 'RiemannSum',
-                'height': None, 
-                'width': None,
-                'scale': 2
-            }
-        }
-
+    if method == "指定する" and n_val is not None and genre:
+        st.write(f"**分割数 : {n_val}**")
         for g in genre:
             fig = animation_riemann(g, n_val)
             st.plotly_chart(fig, use_container_width=True, config=get_config(g), key=f"anim_{g}")
-
-
+    elif method == "∞":
+        fig = plot_riemann_sum()
+        st.plotly_chart(fig, use_container_width=True, config=get_config("Infinity"), key=f"static_inf_{user_formula}_{a}_{b}")
+ 
