@@ -4,7 +4,11 @@ import os
 st.title("🎬 動画アプリ")
 st.write("サイドバーから表示したい動画のカテゴリを選択してください。")
 
-MOVIE_DIR_ROOT = "pages/movie"
+current_dir = os.path.dirname(os.path.abspath(__file__)) # pages フォルダの場所
+root_dir = os.path.dirname(current_dir)                  # ルートフォルダの場所
+
+# 画像データのルートフォルダのパス
+MOVIE_DIR_ROOT = os.path.join(root_dir, "movie")
 
 # 分類メニューをサイドバーに作成する
 st.sidebar.markdown("### 動画分類メニュー")

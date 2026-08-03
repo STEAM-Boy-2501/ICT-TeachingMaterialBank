@@ -6,7 +6,7 @@ from sklearn.linear_model import LinearRegression
 import math
 import statsmodels.api as sm
 from chardet import detect
-
+import os
 
 
 """# 重回帰分析＆単回帰分析"""
@@ -27,10 +27,16 @@ if tub_dict[selected_cbox] == 0 :
     
     # 分析データの選択
     select_str = st.selectbox("分析に使用するデータを選択してください．",select_data_dict.keys(),key="mselect 01")
-    
+
+    # このファイルがある場所の絶対パスを取得
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # pagesフォルダの中にあるsample_datasフォルダ内の CSV ファイルを指定
+    csv_path = os.path.join(current_dir, "sample_datas", "SLRA.csv")
+
     # データの読み込み
     if select_data_dict[select_str] == 0:
-        read_data_df = pd.read_csv("pages\sample_datas\SLRA.csv",encoding='utf-8')
+        read_data_df = pd.read_csv(csv_path, encoding='utf-8')
 
     else :
         st.stop()
