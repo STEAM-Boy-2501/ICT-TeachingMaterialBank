@@ -7,7 +7,7 @@ st.set_page_config(page_title="ICT教材バンク")
 if "credentials" in st.secrets:
     config = st.secrets.to_dict()
 else:
-    print("Secretsが見つかりませんでした")
+    st.error("Secretsが見つかりませんでした")
     st.stop()
 
 
