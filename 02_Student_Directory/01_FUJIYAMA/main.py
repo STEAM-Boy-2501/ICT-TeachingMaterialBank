@@ -8,6 +8,7 @@ if "credentials" in st.secrets:
     config = st.secrets.to_dict()
 else:
     print("Secretsが見つかりませんでした")
+    st.stop()
 
 
 authenticator = stauth.Authenticate(
@@ -43,7 +44,7 @@ if st.session_state["authentication_status"]:
     )
     # サイドバーに表示したい項目
     with st.sidebar:
-        # st.write(f"{user_role}用")
+        st.write(f"{user_role}用")
         st.write("### メニュー")
         st.page_link(home)
         st.page_link(calc_hub)
