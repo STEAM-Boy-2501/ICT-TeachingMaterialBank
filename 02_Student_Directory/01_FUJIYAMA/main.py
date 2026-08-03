@@ -8,7 +8,7 @@ st.set_page_config(page_title="ICT教材バンク")
 # サイドバーに表示する項目
 home = st.Page("pages/home.py", title="ホーム", default=True, icon="🏠")
 calc_hub = st.Page("pages/mathapp.py", title="自動計算アプリ", icon="🧮")
-# image_app = st.Page("pages/imageapp.py", title="画像アプリ", icon="🖼️")
+image_app = st.Page("pages/imageapp.py", title="画像アプリ", icon="🖼️")
 # movie_app = st.Page("pages/movie.py", title="動画アプリ", icon="🎬")
 
 # 自動計算アプリの項目
@@ -17,7 +17,7 @@ regression = st.Page("pages/mathpages/regression_analysis.py", title="回帰分�
 
 # サイドバーに表示させたくない項目
 pg = st.navigation(
-    [home, calc_hub, riemann, regression],
+    [home, calc_hub, image_app, riemann, regression],
     position="hidden"
 )
 
@@ -27,7 +27,7 @@ with st.sidebar:
     st.write("### メニュー")
     st.page_link(home)
     st.page_link(calc_hub)
-    # st.page_link(image_app)
+    st.page_link(image_app)
     # st.page_link(movie_app)
 
 pg.run()
