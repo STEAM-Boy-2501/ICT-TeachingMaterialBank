@@ -30,9 +30,11 @@ if tub_dict[selected_cbox] == 0 :
 
     # このファイルがある場所の絶対パスを取得
     current_dir = os.path.dirname(os.path.abspath(__file__))
+    # 一つ上の階層に移動
+    pages_dir = os.path.dirname(current_dir)
 
     # pagesフォルダの中にあるsample_datasフォルダ内の CSV ファイルを指定
-    csv_path = os.path.join(current_dir, "sample_datas", "SLRA.csv")
+    csv_path = os.path.join(pages_dir, "sample_datas", "SLRA.csv")
 
     # データの読み込み
     if select_data_dict[select_str] == 0:
