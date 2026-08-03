@@ -9,8 +9,11 @@ from PIL import Image # JPEG変換
 st.title("🖼️ 画像アプリ")
 st.write("サイドバーから表示したい画像を選択してください。")
 
+current_dir = os.path.dirname(os.path.abspath(__file__)) # pages フォルダの場所
+root_dir = os.path.dirname(current_dir)                  # ルートフォルダの場所
+
 # 画像データのルートフォルダのパス
-IMAGE_DIR_ROOT = "images"
+IMAGE_DIR_ROOT = os.path.join(root_dir, "images")
 
 st.write("探しているフォルダの絶対パス:", os.path.abspath(IMAGE_DIR_ROOT))
 st.write("そのフォルダは存在するか？:", os.path.exists(IMAGE_DIR_ROOT))
