@@ -10,7 +10,7 @@ st.title("🖼️ 画像アプリ")
 st.write("サイドバーから表示したい画像を選択してください。")
 
 # 画像データのルートフォルダのパス
-IMAGE_DIR_ROOT = "pages/images"
+IMAGE_DIR_ROOT = "images"
 
 # 分類メニューをサイドバーに作成する
 st.sidebar.markdown("### 画像分類メニュー")
