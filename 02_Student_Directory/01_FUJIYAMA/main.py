@@ -28,14 +28,14 @@ if st.session_state["authentication_status"]:
     user_role = config['credentials']['usernames'][username].get('role', 'student')
 
     # サイドバーに表示する項目
-    home = st.Page("pages/home.py", title="ホーム", default=True, icon="🏠")
-    calc_hub = st.Page("pages/mathapp.py", title="自動計算アプリ", icon="🧮")
-    image_app = st.Page("pages/imageapp.py", title="画像アプリ", icon="🖼️")
-    movie_app = st.Page("pages/movie.py", title="動画アプリ", icon="🎬")
+    home = st.Page("view/home.py", title="ホーム", default=True, icon="🏠")
+    calc_hub = st.Page("view/mathapp.py", title="自動計算アプリ", icon="🧮")
+    image_app = st.Page("view/imageapp.py", title="画像アプリ", icon="🖼️")
+    movie_app = st.Page("view/movie.py", title="動画アプリ", icon="🎬")
 
     # 自動計算アプリの項目
-    riemann = st.Page("pages/mathpages/riemann.py", title="リーマン和")
-    regression = st.Page("pages/mathpages/regression_analysis.py", title="回帰分析")
+    riemann = st.Page("view/mathpages/riemann.py", title="リーマン和")
+    regression = st.Page("view/mathpages/regression_analysis.py", title="回帰分析")
 
     # サイドバーに表示させたくない項目
     pg = st.navigation(
