@@ -12,6 +12,9 @@ st.write("サイドバーから表示したい画像を選択してください�
 # 画像データのルートフォルダのパス
 IMAGE_DIR_ROOT = "images"
 
+st.write("探しているフォルダの絶対パス:", os.path.abspath(IMAGE_DIR_ROOT))
+st.write("そのフォルダは存在するか？:", os.path.exists(IMAGE_DIR_ROOT))
+
 # 分類メニューをサイドバーに作成する
 st.sidebar.markdown("### 画像分類メニュー")
 
