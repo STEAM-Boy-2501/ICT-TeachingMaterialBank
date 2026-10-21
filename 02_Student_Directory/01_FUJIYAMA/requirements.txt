@@ -6,6 +6,6 @@ plotly
 resvg_py
 scikit_learn
 statsmodels
-streamlit
+streamlit>=1.57.0
 sympy
 streamlit_authenticator
